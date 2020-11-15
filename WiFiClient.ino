@@ -7,6 +7,7 @@
  *
  */
 
+#include <math.h>
 #include <WiFi.h>
 #include <ArduinoJson.h>
 #include <TM1637Display.h>
@@ -42,7 +43,7 @@ void setup()
   Serial.begin(9600);
   delay(10);
 
-  Serial.print("Setup");
+  Serial.println("Setup");
 
   display.setBrightness(0x01);
   display.showNumberDec(1234);
@@ -50,24 +51,10 @@ void setup()
   setup_wifi();
 }
 
-// Display float:
-void display_float(float f) {
-  Serial.println(f);
-
-  // We have 4 digits: A B C D
-  // We will use the point so it will be: A B C . D
-  float f2 = f+0.05;
-  Serial.println(f2);
-  float f3 = f2*100;
-  Serial.println(f3);
-
-  int int_display = (int)(((f+0.05)*100)/10);
-
-  Serial.print("int display: ");
-  Serial.println(int_display);
-
+void display_int(int i)
+{
   display.clear();
-  display.showNumberDecEx(int_display, 0b01000000, false, 3);
+  display.showNumberDec(i);
 }
 
 // Returns true if all went well
@@ -133,17 +120,13 @@ void loop()
   bool success = get_weather_data(&temp_c);
   if (!success) {
     Serial.println("Failed getting weather data");
-    goto end;
+  } else {
+    Serial.print("Temp (C): ");
+    Serial.println(temp_c);
+    int temp_c_rounded = round(temp_c);
+    display_int(temp_c_rounded);
   }
 
-  Serial.print("Temp (C): ");
-  Serial.println(temp_c);
-  display_float(temp_c);
-
-  // Sleep 5 mins = 300 s
-  //delay(300000);
-
-end:
-
-  delay(5000);
+  // Wait 5 minutes
+  delay(300000);
 }
