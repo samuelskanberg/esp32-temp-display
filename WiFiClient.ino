@@ -30,6 +30,7 @@ void setup_wifi()
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    display_error_sign();
   }
 
   Serial.println("");
@@ -46,7 +47,10 @@ void setup()
   Serial.println("Setup");
 
   display.setBrightness(0x01);
-  display.showNumberDec(1234);
+  display.clear();
+  // Show an "underscore" at the right most digit
+  uint8_t segments[] = { 0b00001000 };
+  display.setSegments(segments, 1, 3);
 
   setup_wifi();
 }
