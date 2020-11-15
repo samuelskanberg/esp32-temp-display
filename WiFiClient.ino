@@ -51,10 +51,31 @@ void setup()
   setup_wifi();
 }
 
+int error_shown = 0;
+
 void display_int(int i)
 {
+  error_shown = 0;
   display.clear();
   display.showNumberDec(i);
+}
+
+// This will display a "rotating" error sign
+void display_error_sign()
+{
+  uint8_t segments[] = { 0 };
+  int mod = error_shown % 4;
+  if (mod == 0) {
+    segments[0] = 0b00000001;
+  } else if (mod == 1) {
+    segments[0] = 0b00000010;
+  } else if (mod == 2) {
+    segments[0] = 0b01000000;
+  } else {
+    segments[0] = 0b00100000;
+  }
+  display.setSegments(segments, 1, 0);
+  error_shown++;
 }
 
 // Returns true if all went well
@@ -120,12 +141,17 @@ void loop()
   bool success = get_weather_data(&temp_c);
   if (!success) {
     Serial.println("Failed getting weather data");
-  } else {
-    Serial.print("Temp (C): ");
-    Serial.println(temp_c);
-    int temp_c_rounded = round(temp_c);
-    display_int(temp_c_rounded);
+    display_error_sign();
+    // Sleep 5 seconds, then try again
+    delay(5000);
+    return ;
   }
+
+  Serial.print("Temp (C): ");
+  Serial.println(temp_c);
+  int temp_c_rounded = round(temp_c);
+  display_int(temp_c_rounded);
+
 
   // Wait 5 minutes
   delay(300000);
