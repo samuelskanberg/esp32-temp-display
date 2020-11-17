@@ -148,6 +148,9 @@ void loop()
     display_error_sign();
     // Sleep 5 seconds, then try again
     delay(5000);
+    // It seems like if there is an error, just trying again isn't enough
+    // We probably need to reset the wifi
+    setup_wifi();
     return ;
   }
 
