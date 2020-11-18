@@ -1,9 +1,9 @@
 /*
- *  This sketch gets data from api.weatherapi.com
+ *  This sketch gets data from https://openweathermap.org/api
  *
- *  You need to get an api key for api.weatherapi.com
+ *  You need to get an api key for open weather map.
  *  
- *  Start with copying settings_default.h to settings.h and add your ssid, password and api key for api.weatherapi.com
+ *  Start with copying settings_default.h to settings.h and add your ssid, password and api key.
  *
  */
 
