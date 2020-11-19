@@ -1,5 +1,7 @@
 # ESP32 temperature display
 
+![ESP32 temperature display in action](temp-display.jpg?raw=true "ESP32 temperature display in action")
+
 This is a simple Arduino project containing a few hardware parts:
 
 * ESP32
