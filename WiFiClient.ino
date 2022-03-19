@@ -1,19 +1,19 @@
 /*
- *  This sketch gets data from https://openweathermap.org/api
- *
- *  You need to get an api key for open weather map.
- *  
- *  Start with copying settings_default.h to settings.h and add your ssid, password and api key.
- *
- *  Copyright 2020 Samuel Skånberg
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- */
+    This sketch gets data from https://openweathermap.org/api
+
+    You need to get an api key for open weather map.
+
+    Start with copying settings_default.h to settings.h and add your ssid, password and api key.
+
+    Copyright 2020 Samuel Skånberg
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+*/
 
 #include <math.h>
 #include <WiFi.h>
@@ -105,7 +105,7 @@ bool get_weather_data(float *temp)
 
   // We now create a URI for the request
   // Here one can see the info for Haninge: https://openweathermap.org/city/2707953
-  String url = "/data/2.5/weather?q=Haninge&units=metric&appid="+settings_api_key;
+  String url = "/data/2.5/weather?q=" + city + "&units=metric&appid=" + settings_api_key;
 
   Serial.print("Requesting URL: ");
   Serial.println(url);
@@ -126,7 +126,7 @@ bool get_weather_data(float *temp)
 
   // Read all the lines of the reply from server and print them to Serial
   String json;
-  while(client.available()) {
+  while (client.available()) {
     String line = client.readStringUntil('\r');
     line.trim();
     if (line.startsWith("{")) {
